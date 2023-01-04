@@ -22,25 +22,11 @@
 #include <iostream>
 
 #include "Game.h"
-#include "ResourceManager.h"
 #include "gl/Shader.h"
+#include "rendering/SpriteBatch.h"
 
 class App
 {
-    static float windowWidth;
-    static float windowHeight;
-
-    static GLFWwindow* window;
-
-    static ResourceManager* resourceManager;
-    static Shader* shader;
-
-    /// @brief initializes glfw
-    void initGLFW();
-
-    /// @brief updates glfw application and events
-    void update();
-
 public:
 
     static Game* game;
@@ -55,6 +41,25 @@ public:
     /// @param width new width in pixels of the window
     /// @param height new height in pixels of the window
     static void changeWindowSize(int width, int height);
+
+private:
+    static float windowWidth;
+    static float windowHeight;
+
+    static GLFWwindow* window;
+    static Shader* shader;
+
+    static SpriteBatch* spriteBatch; 
+
+    /// @brief initializes glfw
+    void initGLFW();
+
+    void initSb();
+
+    /// @brief updates glfw application and events
+    void update();
+
+    void resizeBuffer(Shader* shader);
 };
 
 #endif // APP_H

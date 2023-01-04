@@ -26,19 +26,18 @@ public:
     /// @brief 
     void assignTextureUnit(Shader* shader, const char* uniform, GLuint unit);
 
+    /// @brief Binds the texture
     void bind();
+
+    /// @brief Unbinds the texture
     void unbind();
-    void setUniform(Shader* shader, const char* name);
 
     /// @brief Deletes the texture
     void del();
 
-    /// @brief Bounds of the texture
-    /// @return Bounds of the texture (GLfloat array of size 4)
-    GLfloat* bounds();
-
-    /// @brief Size of the texture
-    int getSize();
+    /// @brief get ID of the texture
+    /// @return ID of the texture
+    GLuint id();
 
 private:
     GLuint ID;

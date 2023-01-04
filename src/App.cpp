@@ -12,6 +12,8 @@ Shader* App::shader = nullptr;
 Game* App::game = NULL;
 GLFWwindow* App::window = NULL;
 
+SpriteBatch* App::spriteBatch = NULL;
+
 App::App(Game* game){
     //define default window size
     this->game = game;
@@ -52,8 +54,15 @@ void App::initGLFW(){
     //alpha blending
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    resizeBuffer(shader);
 
     std::cout << "Successfully initialized GLFW" << std::endl;
+}
+
+void App::initSb(){
+    std::cout << "Initializing SpriteBatch..." << std::endl;
+    spriteBatch = new SpriteBatch(shader);
+    std::cout << "Successfully initialized SpriteBatch" << std::endl;
 }
 
 void App::update(){
@@ -77,4 +86,15 @@ App::~App(){
     glfwDestroyWindow(window);
     glfwTerminate();
     shader->del();
+
+    delete spriteBatch;
+}
+
+void App::resizeBuffer(Shader* shader){
+    glViewport(0, 0, windowWidth, windowHeight);
+    mat4x4 projection = ortho(0.0f, (float)windowWidth, (float)windowHeight, 0.0f, -1.0f, 1.0f);
+
+    shader->use();
+    GLuint projID = glGetUniformLocation(shader->ID, "projection");
+    glUniformMatrix4fv(projID, 1, GL_FALSE, value_ptr(projection));
 }

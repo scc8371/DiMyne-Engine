@@ -62,4 +62,20 @@ Texture::Texture(int width, int height){
     glBindTexture(textureType, 0);
 }
 
+GLuint Texture::id(){
+    return ID;
+}
+
+void Texture::bind(){
+    glBindTexture(textureType, ID);
+}
+
+void Texture::unbind(){
+    glBindTexture(textureType, 0);
+}
+
+void Texture::del(){
+    glDeleteTextures(1, &ID);
+}
+
 
