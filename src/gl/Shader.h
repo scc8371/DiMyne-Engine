@@ -1,0 +1,53 @@
+#ifndef SHADER_H
+#define SHADER_H
+
+#include <opengl/opengl.h>
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <cerrno>
+
+/// @brief Reads a file and returns its contents
+/// @param filename file path
+/// @return file contents
+std::string get_file_contents(const char* filename);
+
+class Shader
+{
+public:
+    /// @brief GLuint ID of the shader
+    GLuint ID;
+    
+    /// @brief VAO binded to the shader
+    static GLuint VAO;
+
+    /// @brief Creates a new Shader object 
+    /// @param vertexPath file path of the vertex shader
+    /// @param fragmentPath file path of the fragment shader
+    Shader(const char* vertexPath, const char* fragmentPath);
+
+    /// @brief Uses the shader
+    void use();
+
+    /// @brief Deletes the shader
+    void del();
+
+    /// @brief Links an attribute to a VBO to be used in the shader
+    /// @param vbo vbo to be linked
+    /// @param layout layout location of the attribute
+    /// @param numComponents number of components of the attribute
+    /// @param type type of the attribute (GL_FLOAT, GL_INT, etc.)
+    /// @param stride stride of the attribute (0 if no stride)
+    /// @param offset offset of the attribute (0 if no offset)
+    void linkAttrib(GLuint vbo, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset);
+
+    /// @brief Binds the VAO to the shader
+    void bind();
+
+    /// @brief Unbinds the VAO from the shader
+    void unbind();
+};
+
+#endif // SHADER_H
