@@ -1,13 +1,17 @@
 #include "Sprite2D.h"
 
-Sprite2D::Sprite2D(Texture texture, Rectangle source) : texture(texture){
-    this->source = source;
+SpriteBatch* Sprite2D::sb = NULL;
+
+void Sprite2D::setSpriteBatch(SpriteBatch* spriteBatch){
+    sb = spriteBatch;
 }
 
-Sprite2D::Sprite2D(Texture texture, int x, int y, int width, int height) : texture(texture){
-    this->source = Rectangle(x, y, width, height);
+Sprite2D::Sprite2D(Texture* texture, Vector2 size, Rectangle source) : texture(texture){
+    this->source = source;
+    this->size = size;
 }
+
 
 void Sprite2D::draw(Vector2 position, Color color){
-    //draw using spriteBatch here
+    sb->draw(*texture, source, Rectangle(position.x, position.y, size.x, size.y), color);
 }

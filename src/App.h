@@ -24,12 +24,18 @@
 #include "Game.h"
 #include "gl/Shader.h"
 #include "rendering/SpriteBatch.h"
+#include "rendering/Sprite2D.h"
+
+#include "events/KeyListener.h"
+#include "events/MouseListener.h"
+#include "events/WindowListener.h"
 
 class App
 {
 public:
-
     static Game* game;
+
+    static Vector2 mousePosition;
 
     /// @brief Creates a new application with the specified width and height
     /// @param width width in pixels of the window that is generated
@@ -46,6 +52,9 @@ private:
     static float windowWidth;
     static float windowHeight;
 
+    float prevDt;
+    float dt;
+
     static GLFWwindow* window;
     static Shader* shader;
 
@@ -58,8 +67,6 @@ private:
 
     /// @brief updates glfw application and events
     void update();
-
-    void resizeBuffer(Shader* shader);
 };
 
 #endif // APP_H

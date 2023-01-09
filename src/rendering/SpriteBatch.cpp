@@ -13,7 +13,7 @@ void SpriteBatch::draw(Texture texture, Rectangle source, Rectangle destination,
         temp.add(source, destination, color);
         queue.push_back(temp);
     }
-    else if(queue.back().texture.id() == texture.id() && shader->ID == queue.back().shader->ID){
+    else if(queue.back().texture.id() == texture.id() && shader->ID == queue.back().shader->ID){;
         queue.back().add(source, destination, color);
     }
     else{
@@ -43,6 +43,9 @@ void SpriteBatch::render(){
     int oSize = old.size();
     int qSize = queue.size();
 
+    //bind VAO
+    glBindVertexArray(shader->VAO);
+
     //update old
     for(int i = 0; i < qSize; i++){
         if(i > oSize - 1){
@@ -67,10 +70,17 @@ void SpriteBatch::render(){
         }
         else{
             //create new buffer
+            std::cout << "Creating new buffer..." << std::endl;
             GLuint temp;
             glGenBuffers(1, &temp);
+
+            std::cout << "Buffer created: VBO " << temp << std::endl;
+
             VBOs.push_back(temp);
         }
+
+        //unbind VAO
+        glBindVertexArray(0);
     }
 
     //clear old VBOs
@@ -78,7 +88,9 @@ void SpriteBatch::render(){
 
     //render queue
     for(int i = 0; i < qSize; i++){
+
         queue[i].shader->use();
+
         queue[i].texture.bind();
         glBindBuffer(GL_ARRAY_BUFFER, VBOs[i]);
 
@@ -87,13 +99,16 @@ void SpriteBatch::render(){
                 * sizeof(Vertex), &queue[i].quads[0], GL_DYNAMIC_DRAW);
         }
 
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat),
+            NULL);
         glEnableVertexAttribArray(0);
 
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(2 * sizeof(GLfloat)));
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
+            8 * sizeof(GLfloat), (void*)(2 * sizeof(GLfloat)));
         glEnableVertexAttribArray(1);
 
-        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(4 * sizeof(GLfloat)));
+        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat),
+            (void*)(4 * sizeof(GLfloat)));
         glEnableVertexAttribArray(2);
 
         //unbind VBO
@@ -118,11 +133,29 @@ size_t SpriteBatch::getHash(QueueEntry entry){
     return result;
 }
 
+/// @brief Fletcher 16-bit hash function
+/// @param vertex vertex to hash
+/// @return hash of the vertex
 size_t SpriteBatch::getHash(Vertex vertex){
-    size_t result = *(size_t*)&vertex.x;
-    result ^= *(size_t*)&vertex.y << 1;
-    result ^= *(size_t*)&vertex.u << 2;
-    result ^= *(size_t*)&vertex.v << 3;
+    size_t result = 0;
+    size_t sum1 = 0;
+    size_t sum2 = 0;
+
+    uint32_t addler = 65521;
+
+    sum1 = fmod((sum1 + vertex.x), addler);
+    sum2 = fmod((sum2 + sum1), addler);
+
+    sum1 = fmod((sum1 + vertex.y), addler);
+    sum2 = fmod((sum2 + sum1), addler);
+
+    sum1 = fmod((sum1 + vertex.u), addler);
+    sum2 = fmod((sum2 + sum1), addler);
+
+    sum1 = fmod((sum1 + vertex.v), addler);
+    sum2 = fmod((sum2 + sum1), addler);
+
+    result = (sum2 << 16) | sum1;
 
     return result;
 }

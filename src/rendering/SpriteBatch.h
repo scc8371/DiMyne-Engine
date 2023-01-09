@@ -10,6 +10,7 @@
 #include "../utils/Color.h"
 
 #include <thread>
+#include <stdio.h>
 
 struct Vertex{
     /// @brief Creates a new Vertex, simplifies setting gl vertex attributes

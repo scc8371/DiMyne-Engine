@@ -33,7 +33,7 @@ Texture::Texture(const char* imagePath, GLenum textureType, GLenum textureSlot, 
 }
 
 Texture::Texture(const char* image) 
-    : Texture(image, GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE) {}
+    : Texture(image, GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE) {}
 
 Texture::Texture(int width, int height){
     textureType = GL_TEXTURE_2D;

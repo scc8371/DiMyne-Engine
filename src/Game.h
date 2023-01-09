@@ -4,6 +4,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "rendering/SpriteBatch.h"
+
 class Game
 {
 public:
@@ -12,8 +14,7 @@ public:
     virtual void initialize();
     virtual void update(float dt);
 
-    /// @brief unimplmented draw function
-    virtual void draw();
+    virtual void draw(SpriteBatch* spriteBatch);
     
     //input
     virtual void keyState(int* key);
