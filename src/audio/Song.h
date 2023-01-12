@@ -11,13 +11,13 @@ public:
     ALint getIntroBuffer() { return introBuffer; };
     ALint getLoopBuffer() { return loopBuffer;};
     bool getHasIntro() { return hasIntro; };
-    float getVolume() { return volume; };
-    float getPitch() { return pitch; };
+    float volume = 1.0f;
+    float pitch = 1.0f;
+    
 private:
     ALint introBuffer = 0, loopBuffer = 0;
     bool hasIntro = false;
-    float volume = 1.0f;
-    float pitch = 1.0f;
+    
 };
 
 

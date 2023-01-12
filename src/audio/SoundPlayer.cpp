@@ -3,41 +3,44 @@
 SoundPlayer::SoundPlayer(){}
 
 void SoundPlayer::initialize(){
+    //audio system init
     device = alcOpenDevice(NULL);
 
     if(device == NULL){
-        std::cout << "OpenAL refused to get the default device" << std::endl;
+        std::cout << "OpenAL refused to get default device" << std::endl;
+        return;
     }
 
     audioContext = alcCreateContext(device, NULL);
     alcMakeContextCurrent(audioContext);
 
     if(audioContext == NULL){
-        std::cout << "OpenAL refused to get the default context" << std::endl;
+        std::cout << "OpenAL refused to make current context" << std::endl;
     }
 
-    //generate sources for songs
+    //generates source for song
     alGenSources(1, &musicSource);
 
-    //generate sources for sounds
-    alGenSources(SOURCES, &soundSources[0]);
+    //generates source for sounds
+    alGenSources(SOURCES, &soundSources[0]);   
 }
 
 void SoundPlayer::updateAudio(){
     ALint state;
 
-    //checks if the source is already playing
+    //checks if the music is currently playing
     alGetSourcei(musicSource, AL_SOURCE_STATE, &state);
-
-    //checks if audio stopped, and if a loop buffer is set
-    if(state == AL_STOPPED && loopBuffer != 0){
-        //sets the buffer to the loop buffer
+    
+    //checks if the audio stopped
+    //and if a loop has been queued
+    if(state != AL_PLAYING && loopBuffer != 0){
+        //changes current state to play the loop
         alSourcei(musicSource, AL_BUFFER, loopBuffer);
-        alSourcei(musicSource, AL_LOOPING, AL_TRUE);
+        alSourcei(musicSource, AL_LOOPING, 1);
 
-        //plays the source
+        //plays the music
         alSourcePlay(musicSource);
-    }
+    }        
 
     auto error = alGetError();
 
@@ -47,21 +50,26 @@ void SoundPlayer::updateAudio(){
 }
 
 void SoundPlayer::play(Song song){
+    //prevents the song from infinitely repeating.
     if(song.getLoopBuffer() == loopBuffer) return;
 
-    //sets the pitch of the song
-    alSourcef(musicSource, AL_PITCH, song.getPitch());
 
+    //sets the pitch of the song
+    alSourcef(musicSource, AL_PITCH, song.pitch);
+    
+    //checks if the song has an intro segment
     if(song.getHasIntro()){
+        //stops current track and plays the intro
         alSourceStop(musicSource);
 
         alSourcei(musicSource, AL_BUFFER, song.getIntroBuffer());
 
         alSourcei(musicSource, AL_LOOPING, 0);
-        alSourcef(musicSource, AL_GAIN, song.getVolume());
+        alSourcef(musicSource, AL_GAIN, song.volume);
         alSourcePlay(musicSource);
     }
     else{
+        //does not play intro and immediately starts the loop
         alSourceStop(musicSource);
     }
 
