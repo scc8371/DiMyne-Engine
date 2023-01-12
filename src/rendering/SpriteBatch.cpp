@@ -1,23 +1,40 @@
 #include "SpriteBatch.h"
 
-SpriteBatch::SpriteBatch(Shader* shader){
-    this->shader = shader;
+SpriteBatch::SpriteBatch(){
     old = std::vector<size_t>();
     queue = std::vector<QueueEntry>();
     VBOs = std::vector<GLuint>();
 }
 
-void SpriteBatch::draw(Texture texture, Rectangle source, Rectangle destination, Color color){
+void SpriteBatch::addDefualtShader(Shader* shader){
+    defaultShader = shader;
+    activeShader = defaultShader;
+}
+
+void SpriteBatch::addFontShader(Shader* shader){
+    fontShader = shader;
+}
+
+void SpriteBatch::activateDefault(){
+    activeShader = defaultShader;
+}
+
+void SpriteBatch::activateFont(){
+    activeShader = fontShader;
+}
+
+void SpriteBatch::draw(Texture texture, Rectangle source, 
+            Rectangle destination, Color color){
     if(queue.size() == 0){
-        QueueEntry temp = QueueEntry(texture, shader);
+        QueueEntry temp = QueueEntry(texture, activeShader);
         temp.add(source, destination, color);
         queue.push_back(temp);
     }
-    else if(queue.back().texture.id() == texture.id() && shader->ID == queue.back().shader->ID){;
+    else if(queue.back().texture.id() == texture.id() && activeShader->ID == queue.back().shader->ID){;
         queue.back().add(source, destination, color);
     }
     else{
-        QueueEntry temp = QueueEntry(texture, shader);
+        QueueEntry temp = QueueEntry(texture, activeShader);
         temp.add(source, destination, color);
         queue.push_back(temp);
     }
@@ -44,7 +61,7 @@ void SpriteBatch::render(){
     int qSize = queue.size();
 
     //bind VAO
-    glBindVertexArray(shader->VAO);
+    glBindVertexArray(activeShader->VAO);
 
     //update old
     for(int i = 0; i < qSize; i++){

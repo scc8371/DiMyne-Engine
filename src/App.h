@@ -29,6 +29,11 @@
 #include "events/KeyListener.h"
 #include "events/MouseListener.h"
 #include "events/WindowListener.h"
+#include "rendering/Font.h"
+
+#include "audio/Song.h"
+#include "audio/Sound.h"
+#include "audio/SoundPlayer.h"
 
 class App
 {
@@ -36,6 +41,7 @@ public:
     static Game* game;
 
     static Vector2 mousePosition;
+    static SoundPlayer audio;
 
     /// @brief Creates a new application with the specified width and height
     /// @param width width in pixels of the window that is generated
@@ -57,6 +63,7 @@ private:
 
     static GLFWwindow* window;
     static Shader* shader;
+    static Shader* fontShader;
 
     static SpriteBatch* spriteBatch; 
 

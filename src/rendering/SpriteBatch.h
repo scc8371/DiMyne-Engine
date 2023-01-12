@@ -9,6 +9,8 @@
 #include "../gl/Shader.h"
 #include "../utils/Color.h"
 
+#include <map>
+
 #include <thread>
 #include <stdio.h>
 
@@ -28,16 +30,23 @@ class SpriteBatch{
 public:
     /// @brief Creates a SpriteBatch object
     /// @param shader Shader to use for rendering
-    SpriteBatch(Shader* shader);
+    SpriteBatch();
 
     /// @brief Draws a texture to the screen
     /// @param texture Texture to draw
     /// @param source Source rectangle of the texture
     /// @param destination Destination rectangle of the texture 
     /// @param color Color of the texture (default: white, no transparency) 
-    void draw(Texture texture, Rectangle source, Rectangle destination, Color color = Color(255, 255, 255, 255));
+    void draw(Texture texture, Rectangle source,
+     Rectangle destination, Color color = Color(255, 255, 255, 255));
 
     void render();
+
+    void addDefualtShader(Shader* shader);
+    void addFontShader(Shader* shader);
+
+    void activateDefault();
+    void activateFont();
 
     /// @brief Colors the gl window
     /// @param color Color of the window
@@ -68,7 +77,11 @@ private:
     std::vector<size_t> old;
     std::vector<QueueEntry> queue;
     std::vector<GLuint> VBOs;
-    Shader* shader;
+
+    Shader* activeShader;
+    
+    Shader* defaultShader = nullptr;
+    Shader* fontShader = nullptr;
 
     size_t getHash(QueueEntry entry);
     size_t getHash(Vertex v);

@@ -10,6 +10,9 @@ float App::windowHeight = 800;
 Vector2 App::mousePosition = Vector2(0, 0);
 
 Shader* App::shader = nullptr;
+Shader* App::fontShader = nullptr;
+
+SoundPlayer App::audio = SoundPlayer();
 
 Game* App::game = NULL;
 GLFWwindow* App::window = NULL;
@@ -23,10 +26,11 @@ App::App(Game* game){
     prevDt = 0;
       
     initGLFW();
-
+    audio.initialize();
     game->initialize();
     initSb();
     Sprite2D::setSpriteBatch(spriteBatch);
+    Font::setSpriteBatch(spriteBatch);
     
     update();
 }
@@ -59,8 +63,9 @@ void App::initGLFW(){
     gladLoadGL();
 
     shader = new Shader("resources/shader/default.vert", "resources/shader/default.frag");
+    fontShader = new Shader("resources/shader/default.vert", "resources/shader/fontShader.frag");
     
-    //alpha blending
+    //alpha blendings
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -82,7 +87,12 @@ void App::initGLFW(){
 
 void App::initSb(){
     std::cout << "Initializing SpriteBatch..." << std::endl;
-    spriteBatch = new SpriteBatch(shader);
+    spriteBatch = new SpriteBatch();
+
+    //add img and font shaders
+    spriteBatch->addDefualtShader(shader);
+    spriteBatch->addFontShader(fontShader);
+    
     std::cout << "Successfully initialized SpriteBatch" << std::endl;
 }
 
@@ -98,6 +108,7 @@ void App::update(){
         
         //update game     
         game->update(dt);
+        audio.updateAudio();
 
         shader->use();  
         game->draw(spriteBatch);
@@ -123,7 +134,9 @@ void App::update(){
 App::~App(){
     glfwDestroyWindow(window);
     glfwTerminate();
+
     shader->del();
+    fontShader->del();
 
     delete spriteBatch;
 }
