@@ -35,6 +35,8 @@
 #include "audio/Sound.h"
 #include "audio/SoundPlayer.h"
 
+#include "utils/ColorDef.h"
+
 class App
 {
 public:

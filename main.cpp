@@ -25,8 +25,8 @@ class Game1 : public Game{
         }
         void draw(SpriteBatch* sb) override{
             jorje->draw(Vector2(0, 0));
-            sb->colorWindow(Color(255, 255, 255, 255));
-            font->draw("hello world", Vector2(500, 100));
+            sb->colorWindow(WHITE);
+            font->draw("hello world", Vector2(500, 100), BLACK);
         }
 };
 
