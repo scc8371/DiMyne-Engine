@@ -4,14 +4,14 @@ SpriteBatch* Font::sb = nullptr;
 
 Font::Font(const char* fontPath, int fontSize){
 
-    if(FT_Init_FreeType(&FT)){
+    if(FT_Init_FreeType(FT)){
         std::cout << "Could not init FreeType Library" << std::endl;
         return;
     }
 
     FT_Face face;
 
-    if(FT_New_Face(FT, fontPath, 0, &face)){
+    if(FT_New_Face(*FT, fontPath, 0, &face)){
         std::cout << "Failed to load font" << std::endl;
         return;
     }
