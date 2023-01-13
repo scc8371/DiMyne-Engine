@@ -197,11 +197,12 @@ void SpriteBatch::QueueEntry::add(Rectangle source, Rectangle destination, Color
 }
 
 void SpriteBatch::colorWindow(Color color){
-    glClearColor(color.r, color.g, color.b, color.a);
-    glClear(GL_COLOR_BUFFER_BIT);
-}
+    //change color values to floats
+    GLfloat* colors = color.toFloats();
 
-void SpriteBatch::colorWindow(GLfloat r, GLfloat g, GLfloat b, GLfloat a){
-    glClearColor(r, g, b, a);
+    glClearColor(colors[0], colors[1], colors[2], colors[3]);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    delete[] colors;
+    colors = nullptr;
 }

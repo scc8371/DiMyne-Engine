@@ -51,15 +51,6 @@ public:
     /// @brief Colors the gl window
     /// @param color Color of the window
     void colorWindow(Color color);
-
-    /// @brief Colors the gl window
-    /// @param r red value (0-255)
-    /// @param g green value (0-255)
-    /// @param b blue value (0-255)
-    /// @param a alpha value (0-255)
-    void colorWindow(float r, float g, float b, float a);
-
-
 private:
 
     struct QueueEntry{
