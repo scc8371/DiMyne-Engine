@@ -18,7 +18,7 @@ class Game1 : public Game{
             texture = new Texture("resources/content/jorje_poster.png");
             jorje = new Sprite2D(texture, Vector2(100, 100), Rectangle(0, 0, 1, 1));
 
-            font = new Font("resources/font/roboto.ttf", 12);
+            font = new Font("resources/font/roboto.ttf", 50);
         }
         void update(float dt) override{
             

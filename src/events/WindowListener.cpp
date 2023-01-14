@@ -10,6 +10,7 @@ bool WindowListener::focused = false;
 bool WindowListener::closing = false;
 
 Shader* WindowListener::shader = nullptr;
+Shader* WindowListener::fontShader = nullptr;
 
 WindowListener* WindowListener::getInstance(){
     if(instance == nullptr){
@@ -56,6 +57,10 @@ void WindowListener::setShader(Shader* shader){
     WindowListener::shader = shader;
 }
 
+void WindowListener::setFontShader(Shader* shader){
+    WindowListener::fontShader = shader;
+}
+
 void WindowListener::resizeBuffer(int width, int height){
 
     if(shader == nullptr){
@@ -64,6 +69,32 @@ void WindowListener::resizeBuffer(int width, int height){
          return;
     }
 
+    glViewport(0, 0, width, height);
+    mat4x4 projection = ortho(0.0f, (float)width, (float)height, 0.0f, -1.0f, 1.0f);
+
+    try{
+        shader->use();
+        GLuint projID = glGetUniformLocation(shader->ID, "projection");
+        glUniformMatrix4fv(projID, 1, GL_FALSE, value_ptr(projection));
+    }
+    catch(std::exception& e){
+        std::cout << "Shader not defined" << std::endl;
+    }
+
+    try{
+        fontShader->use();
+        GLuint projID = glGetUniformLocation(fontShader->ID, "projection");
+        glUniformMatrix4fv(projID, 1, GL_FALSE, value_ptr(projection));
+    }   
+    catch(std::exception& e){
+        std::cout << "Font shader not defined" << std::endl;
+    }
+    
+    WindowListener::getInstance()->width = width;
+    WindowListener::getInstance()->height = height;
+}
+
+void WindowListener::resizeBuffer(Shader* shader){
     glViewport(0, 0, width, height);
     mat4x4 projection = ortho(0.0f, (float)width, (float)height, 0.0f, -1.0f, 1.0f);
 

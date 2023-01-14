@@ -21,6 +21,7 @@ public:
     static void windowFocusCallback(GLFWwindow* window, int focused);
     static void windowCloseCallback(GLFWwindow* window);
     static void resizeBuffer(int width, int height);
+    static void resizeBuffer(Shader* shader);
    
 
     static int getWidth();
@@ -29,14 +30,13 @@ public:
     static bool isFocused();
     static bool isClosing();
     static void setShader(Shader* shader);
-
-
-
+    static void setFontShader(Shader* shader);
 
 private:
     WindowListener();
     static WindowListener* instance;
     static Shader* shader;
+    static Shader* fontShader;
 
     static int width, height;
     static bool iconified, focused, closing;

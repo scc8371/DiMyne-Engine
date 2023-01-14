@@ -71,7 +71,10 @@ void App::initGLFW(){
 
     //set window listener shader, first buffer change
     WindowListener::setShader(shader);
+    WindowListener::setFontShader(fontShader);
+    
     WindowListener::resizeBuffer(windowWidth, windowHeight);
+    WindowListener::resizeBuffer(fontShader);
 
     glfwSwapInterval(1);
 

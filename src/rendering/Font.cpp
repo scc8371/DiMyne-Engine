@@ -90,9 +90,9 @@ void Font::draw(const char* text, Vector2 location, Color color){
         Rectangle bounds(x, y, width, height);
 
         sb->activateFont();
-        sb->draw(*texture, source, bounds, color);
-        sb->activateDefault();
-        
+        sb->draw(*texture, source, bounds, color);      
+        sb->activateDefault();   
+            
         pos.x += ch.ax;
     }   
 }

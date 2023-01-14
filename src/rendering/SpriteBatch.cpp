@@ -15,12 +15,14 @@ void SpriteBatch::addFontShader(Shader* shader){
     fontShader = shader;
 }
 
-void SpriteBatch::activateDefault(){
+Shader* SpriteBatch::activateDefault(){
     activeShader = defaultShader;
+    return activeShader;
 }
 
-void SpriteBatch::activateFont(){
+Shader* SpriteBatch::activateFont(){
     activeShader = fontShader;
+    return activeShader;
 }
 
 void SpriteBatch::draw(Texture texture, Rectangle source, 

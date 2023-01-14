@@ -10,6 +10,7 @@
 #include "../utils/Rectangle.h"
 #include "Texture.h"
 #include "SpriteBatch.h"
+#include "../events/WindowListener.h"
 
 struct CharacterInfo{
     float ax,ay,

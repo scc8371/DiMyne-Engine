@@ -45,8 +45,8 @@ public:
     void addDefualtShader(Shader* shader);
     void addFontShader(Shader* shader);
 
-    void activateDefault();
-    void activateFont();
+    Shader* activateDefault();
+    Shader* activateFont();
 
     /// @brief Colors the gl window
     /// @param color Color of the window
