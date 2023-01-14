@@ -3,7 +3,7 @@
 using namespace std;
 using namespace glm;
 
-//window dimentions, can be changed.
+//initial window dimensions, can be changed.
 float App::windowWidth = 1200;
 float App::windowHeight = 800;
 

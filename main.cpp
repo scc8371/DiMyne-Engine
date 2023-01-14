@@ -18,14 +18,14 @@ class Game1 : public Game{
             texture = new Texture("resources/content/jorje_poster.png");
             jorje = new Sprite2D(texture, Vector2(100, 100), Rectangle(0, 0, 1, 1));
 
-            font = new Font("resources/font/font.ttf", 12);
+            font = new Font("resources/font/roboto.ttf", 12);
         }
         void update(float dt) override{
             
         }
         void draw(SpriteBatch* sb) override{
             jorje->draw(Vector2(0, 0));
-            sb->colorWindow(BEST_COLOR);
+            sb->colorWindow(WINDOWS_COLOR);
             font->draw("hello world", Vector2(500, 100), BLACK);
         }
 };

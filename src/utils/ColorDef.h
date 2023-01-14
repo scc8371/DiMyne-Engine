@@ -98,7 +98,7 @@
 #define LIGHT_RED_ORANGE Color(255, 191, 128, 1)
 #define LIGHT_RED_PURPLE Color(224, 160, 224, 1)
 #define MEATLOAF Color(178, 34, 34, 1)
-#define BEST_COLOR Color(0, 128, 128, 1)
+#define WINDOWS_COLOR Color(0, 128, 128, 1)
 #define RANDOM_COLOR Color(GetRandomValue(0, 255), GetRandomValue(0, 255), GetRandomValue(0, 255), 1)
 
 #define GetRandomValue(min, max) ((rand()%(int)(((max) + 1) - (min)))+(min))

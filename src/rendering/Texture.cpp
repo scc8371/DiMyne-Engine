@@ -37,29 +37,27 @@ Texture::Texture(const char* image)
 
 Texture::Texture(int width, int height){
     textureType = GL_TEXTURE_2D;
+	
+	glActiveTexture(GL_TEXTURE0);	
+	glGenTextures(1, &ID);
+	glBindTexture(GL_TEXTURE_2D, ID);
 
-    glActiveTexture(GL_TEXTURE0);
-    glGenTextures(1, &ID);
-    glBindTexture(textureType, ID);
+	//Configures image resizing
+	glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+	glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    //img resizing
-    glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-    glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//configures repeating textures
+	glTexParameteri(textureType, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(textureType, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    //repeating textures
-    glTexParameteri(textureType, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(textureType, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
-    //assign texture to gl texture obj
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+	glGenerateMipmap(textureType);
 
-    //generate mipmaps
-    glGenerateMipmap(textureType);
-
-    //unbind gl texture
-    glBindTexture(textureType, 0);
+	//Unbinds openGL texture so we cannot accidentally modify it.
+	glBindTexture(textureType, 0);
 }
 
 GLuint Texture::id(){
