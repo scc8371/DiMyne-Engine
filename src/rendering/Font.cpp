@@ -19,7 +19,7 @@ Font::Font(const char* fontPath, int fontSize){
     FT_Set_Pixel_Sizes(face, 0, fontSize);
     this->fontSize = (float)fontSize;
 
-    int width, height = 0;
+    int width = 0, height = 0;
 
     for(int i = 32; i < 128; i++){
         if(FT_Load_Char(face, i, FT_LOAD_RENDER)){
