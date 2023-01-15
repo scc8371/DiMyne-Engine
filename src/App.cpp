@@ -1,7 +1,6 @@
 #include "App.h"
 
 using namespace std;
-using namespace glm;
 
 //initial window dimensions, can be changed.
 float App::windowWidth = 1200;
@@ -28,6 +27,11 @@ App::App(Game* game){
     initGLFW();
     audio.initialize();
     game->initialize();
+
+    #ifdef DEBUG
+    initImGui();
+    #endif
+    
     initSb();
     Sprite2D::setSpriteBatch(spriteBatch);
     Font::setSpriteBatch(spriteBatch);
@@ -72,7 +76,7 @@ void App::initGLFW(){
     //set window listener shader, first buffer change
     WindowListener::setShader(shader);
     WindowListener::setFontShader(fontShader);
-    
+
     WindowListener::resizeBuffer(windowWidth, windowHeight);
     WindowListener::resizeBuffer(fontShader);
 
@@ -100,14 +104,25 @@ void App::initSb(){
 }
 
 void App::update(){
-    //update dt
-    dt = glfwGetTime() - prevDt;
-    prevDt = glfwGetTime();
+    
 
     //update glfw
     glfwPollEvents();
 
     while(!glfwWindowShouldClose(window)){
+
+        //update dt
+        dt = glfwGetTime() - prevDt;
+        prevDt = glfwGetTime();
+        
+        #ifdef DEBUG
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        //set imgui size
+        ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_FirstUseEver);
+        #endif
         
         //update game     
         game->update(dt);
@@ -128,9 +143,13 @@ void App::update(){
 
         MouseListener::endFrame();
 
+        #ifdef DEBUG
+        updateImGui();
+        #endif
+
         //swap buffers
         glfwSwapBuffers(window);
-        glfwPollEvents();
+        glfwPollEvents();       
     }
 }
 
@@ -142,4 +161,32 @@ App::~App(){
     fontShader->del();
 
     delete spriteBatch;
+
+    #ifdef DEBUG
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+    #endif
 }
+
+#ifdef DEBUG
+void App::initImGui(){
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
+}
+
+void App::updateImGui(){
+    ImGui::Begin("Debug");
+    ImGui::Text("FPS: %i", (int)(1/dt));
+    ImGui::Text("Mouse Position: (%f, %f)", mousePosition.x, mousePosition.y);
+    ImGui::End();
+
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+#endif
+

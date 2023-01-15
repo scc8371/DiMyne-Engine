@@ -37,6 +37,14 @@
 
 #include "utils/ColorDef.h"
 
+#include <glad/glad.h>
+
+#ifdef DEBUG
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+#endif
+
 class App
 {
 public:
@@ -73,6 +81,11 @@ private:
     void initGLFW();
 
     void initSb();
+
+    #ifdef DEBUG
+    void initImGui();
+    void updateImGui();
+    #endif
 
     /// @brief updates glfw application and events
     void update();

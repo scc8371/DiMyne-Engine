@@ -1,5 +1,4 @@
 #include "src/App.h"
-
 using namespace std;
 
 Texture* texture = NULL;
