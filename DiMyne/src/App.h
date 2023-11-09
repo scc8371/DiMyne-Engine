@@ -37,6 +37,8 @@
 
 #include "utils/ColorDef.h"
 
+#include "camera/Camera.h"
+
 #include <glad/glad.h>
 
 #ifdef DEBUG
@@ -73,7 +75,10 @@ private:
 
     static GLFWwindow* window;
     static Shader* shader;
+    static Shader* depthShader;
     static Shader* fontShader;
+
+    Camera* camera;
 
     static SpriteBatch* spriteBatch; 
 

@@ -10,6 +10,7 @@ Vector2 App::mousePosition = Vector2(0, 0);
 
 Shader* App::shader = nullptr;
 Shader* App::fontShader = nullptr;
+Shader* App::depthShader = nullptr;
 
 SoundPlayer App::audio = SoundPlayer();
 
@@ -35,6 +36,8 @@ App::App(Game* game){
     initSb();
     Sprite2D::setSpriteBatch(spriteBatch);
     Font::setSpriteBatch(spriteBatch);
+
+    camera = new Camera();
     
     update();
 }
@@ -68,9 +71,11 @@ void App::initGLFW(){
 
     shader = new Shader("resources/shader/default.vert", "resources/shader/default.frag");
     fontShader = new Shader("resources/shader/default.vert", "resources/shader/fontShader.frag");
+    depthShader = new Shader("resources/shader/depth.vert", "resources/shader/default.frag");
     
     //alpha blendings
     glEnable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     //set window listener shader, first buffer change
@@ -124,7 +129,10 @@ void App::update(){
         ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_FirstUseEver);
         #endif
         
-        //update game     
+        //update camera view.
+        camera->update(depthShader, dt);
+
+        //update game   
         game->update(dt);
         audio.updateAudio();
 
@@ -161,6 +169,10 @@ App::~App(){
     fontShader->del();
 
     delete spriteBatch;
+    spriteBatch = nullptr;
+
+    delete camera;
+    camera = nullptr;
 
     #ifdef DEBUG
     ImGui_ImplOpenGL3_Shutdown();

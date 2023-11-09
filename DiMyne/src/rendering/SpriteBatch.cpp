@@ -203,7 +203,7 @@ void SpriteBatch::colorWindow(Color color){
     GLfloat* colors = color.toFloats();
 
     glClearColor(colors[0], colors[1], colors[2], colors[3]);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     delete[] colors;
     colors = nullptr;
