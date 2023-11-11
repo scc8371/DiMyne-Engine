@@ -39,6 +39,8 @@
 
 #include "camera/Camera.h"
 
+#include "rendering/3d/Cube.h"
+
 #include <glad/glad.h>
 
 #ifdef DEBUG
@@ -79,6 +81,7 @@ private:
     static Shader* fontShader;
 
     Camera* camera;
+    Cube* testCube;
 
     static SpriteBatch* spriteBatch; 
 

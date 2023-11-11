@@ -38,6 +38,7 @@ App::App(Game* game){
     Font::setSpriteBatch(spriteBatch);
 
     camera = new Camera();
+    testCube = new Cube(1, "resources/content/tile.png");
     
     update();
 }
@@ -109,8 +110,6 @@ void App::initSb(){
 }
 
 void App::update(){
-    
-
     //update glfw
     glfwPollEvents();
 
@@ -138,6 +137,8 @@ void App::update(){
 
         shader->use();  
         game->draw(spriteBatch);
+        
+        testCube->draw(depthShader);
 
         //update mouse position
         App::mousePosition = MouseListener::getInstance()->getPos();
@@ -167,6 +168,7 @@ App::~App(){
 
     shader->del();
     fontShader->del();
+    depthShader->del();
 
     delete spriteBatch;
     spriteBatch = nullptr;

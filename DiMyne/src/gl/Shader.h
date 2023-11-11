@@ -9,6 +9,9 @@
 #include <string>
 #include <cerrno>
 
+#include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/gtc/type_ptr.hpp>
+
 /// @brief Reads a file and returns its contents
 /// @param filename file path
 /// @return file contents
@@ -42,6 +45,11 @@ public:
     /// @param stride stride of the attribute (0 if no stride)
     /// @param offset offset of the attribute (0 if no offset)
     void linkAttrib(GLuint vbo, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset);
+
+    /// @brief Links a matrix4 to a uniform variable in the shader
+    /// @param name Name of uniform variable in the shader
+    /// @param matrix Matrix to link to the uniform variable
+    void setMat4(const std::string& name, const glm::mat4& matrix);
 
     /// @brief Binds the VAO to the shader
     void bind();

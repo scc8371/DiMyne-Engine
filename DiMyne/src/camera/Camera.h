@@ -4,6 +4,7 @@
 
 #include "../gl/Shader.h"
 #include "../events/WindowListener.h"
+#include "../events/KeyListener.h"
 
 #include <opengl/opengl.h>
 
@@ -28,6 +29,7 @@ public:
 
     float getFOV(){ return fov; }
     void setFOV(float newFOV){ fov = newFOV; }
+    void processInput(float dt);
 private:
     glm::mat4 m_view;
     glm::mat4 m_proj;

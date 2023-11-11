@@ -93,3 +93,7 @@ void Shader::linkAttrib(GLuint vbo, GLuint layout, GLuint numComponents, GLenum 
     glEnableVertexAttribArray(layout);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+
+void Shader::setMat4(const std::string& name, const glm::mat4& matrix){
+    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
+}
