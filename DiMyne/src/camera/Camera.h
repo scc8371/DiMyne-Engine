@@ -5,6 +5,7 @@
 #include "../gl/Shader.h"
 #include "../events/WindowListener.h"
 #include "../events/KeyListener.h"
+#include "../events/MouseListener.h"
 
 #include <opengl/opengl.h>
 
@@ -30,6 +31,8 @@ public:
     float getFOV(){ return fov; }
     void setFOV(float newFOV){ fov = newFOV; }
     void processInput(float dt);
+
+    void faceMouse();
 private:
     glm::mat4 m_view;
     glm::mat4 m_proj;
@@ -45,6 +48,10 @@ private:
     glm::vec3 cameraTarget;
 
     float fov;
+
+    float yaw, pitch;
+
+    bool firstMovementFrame;
 };
 
 #endif

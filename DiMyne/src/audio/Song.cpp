@@ -3,7 +3,7 @@
 Song::Song(const char* path, float loopPoint){
     //loop point cannot be before the start or after the end of the song
     if(loopPoint < 0 || loopPoint > 1){
-        std::cout << "Invalid loop point. Please specify a value between 0 and 1.";
+        std::cout << "[DiMyne] Invalid loop point. Please specify a value between 0 and 1.";
         return;
     }
 
@@ -35,9 +35,9 @@ Song::Song(const char* path, float loopPoint){
 
     //prints any errors to the console.
     if(error != AL_NO_ERROR){
-        printf("OpenAL error: %i\n", error);
+        printf("[OpenAL] OpenAL error: %i\n", error);
     }
     else{
-        std::cout << "Song loaded successfully." << std::endl;
+        std::cout << "[DiMyne] Song loaded successfully." << std::endl;
     }
 }

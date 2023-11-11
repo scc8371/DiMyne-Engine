@@ -5,14 +5,14 @@ SpriteBatch* Font::sb = nullptr;
 Font::Font(const char* fontPath, int fontSize){
 
     if(FT_Init_FreeType(&FT)){
-        std::cout << "Could not init FreeType Library" << std::endl;
+        std::cout << "[FreeType] Could not init FreeType Library" << std::endl;
         return;
     }
 
     FT_Face face;
 
     if(FT_New_Face(FT, fontPath, 0, &face)){
-        std::cout << "Failed to load font" << std::endl;
+        std::cout << "[FreeType] Failed to load font" << std::endl;
         return;
     }
 
@@ -23,7 +23,7 @@ Font::Font(const char* fontPath, int fontSize){
 
     for(int i = 32; i < 128; i++){
         if(FT_Load_Char(face, i, FT_LOAD_RENDER)){
-            std::cout << "Failed to load Glyph" << std::endl;
+            std::cout << "[FreeType] Failed to load Glyph" << std::endl;
             continue;
         }
 
@@ -37,7 +37,7 @@ Font::Font(const char* fontPath, int fontSize){
 
     for(int i = 32; i < 128; i++){
         if(FT_Load_Char(face, i, FT_LOAD_RENDER)){
-            printf("loading character %i failed\n", i);
+            printf("[FreeType] loading character %i failed\n", i);
             continue;
         }
 
@@ -66,7 +66,7 @@ Font::Font(const char* fontPath, int fontSize){
 
     FT_Done_Face(face);
 
-    std::cout << "successfully loaded font: " << fontPath << std::endl;
+    std::cout << "[FreeType] uccessfully loaded font: " << fontPath << std::endl;
 }
 
 void Font::draw(const char* text, Vector2 location, Color color){

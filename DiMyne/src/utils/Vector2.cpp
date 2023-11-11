@@ -20,7 +20,7 @@ Vector2* Vector2::normalize(){
 
     if(mag <= 0){
         return new Vector2(0, 0);
-        std::cout << "Invalid magnitude detected! Check Vector2 inputs." << std::endl;
+        std::cout << "[DiMyne] Invalid magnitude detected! Check Vector2 inputs." << std::endl;
     }
     else{
         return new Vector2(x / mag, y / mag);
@@ -74,6 +74,11 @@ Vector2 Vector2::operator/(const GLfloat& scalar){
 
 Vector2 Vector2::operator/=(const GLfloat& scalar){
     return *this = *this / scalar;
+}
+
+bool Vector2::operator!=(const Vector2& other){
+    if(this->x == other.x && this->y == other.y) return false;
+    else return true;
 }
 
 //sets one vector2 equal to another.

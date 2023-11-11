@@ -17,7 +17,7 @@ std::string get_file_contents(const char* filename){
         }
         catch(...){
             in.close();
-            std::cout << "Error reading file: " << filename << std::endl;
+            std::cout << "[DiMyne] Error reading file: " << filename << std::endl;
             return "";
         }        
     }
@@ -66,8 +66,8 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath){
     //generate VAO
     glGenVertexArrays(1, &VAO);
 
-    std::cout << "Shader created" << std::endl;
-    std::cout << "Initialized VAO: " << VAO << " (" << &VAO << ")" << std::endl;
+    std::cout << "[DiMyne] Shader created" << std::endl;
+    std::cout << "[DiMyne] Initialized VAO: " << VAO << " (" << &VAO << ")" << std::endl;
 }
 
 void Shader::use(){

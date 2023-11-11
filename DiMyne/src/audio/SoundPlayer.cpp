@@ -7,7 +7,7 @@ void SoundPlayer::initialize(){
     device = alcOpenDevice(NULL);
 
     if(device == NULL){
-        std::cout << "OpenAL refused to get default device" << std::endl;
+        std::cout << "[OpenAL] OpenAL refused to get default device" << std::endl;
         return;
     }
 
@@ -15,7 +15,7 @@ void SoundPlayer::initialize(){
     alcMakeContextCurrent(audioContext);
 
     if(audioContext == NULL){
-        std::cout << "OpenAL refused to make current context" << std::endl;
+        std::cout << "[OpenAL] OpenAL refused to make current context" << std::endl;
     }
 
     //generates source for song

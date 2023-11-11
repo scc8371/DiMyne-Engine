@@ -7,7 +7,7 @@ Wav::Wav(const char* path){
 
     //reader not instantiated properly.
     if(!file){
-        std::cout << "Failed to open source .wav file!" << std::endl;
+        std::cout << "[DiMyne] Failed to open source .wav file!" << std::endl;
         return;
     }
 
@@ -79,27 +79,27 @@ Wav::Wav(const char* path){
     //checks for invalid audio data, prints errors to the console.
 
     if(!strcmp(chunkID, "RIFF")){
-        std::cout << "Invalid audio file: " << path << std::endl; 
+        std::cout << "[DiMyne] Invalid audio file: " << path << std::endl; 
         return;
     }
 
     if(!strcmp(format, "WAVE")){
-        std::cout << "File is not .wav: " << path << std::endl;
+        std::cout << "[DiMyne] File is not .wav: " << path << std::endl;
         return;
     }
 
     if(!strcmp(subChunkID, "fmt")){
-        std::cout << "No format specified for audio file: " << path << std::endl;
+        std::cout << "[DiMyne] No format specified for audio file: " << path << std::endl;
         return;
     }
 
     if(audioFormat != 1){
-        std::cout << "Invalid audio format for audio file: " << path << std::endl;
+        std::cout << "[DiMyne] Invalid audio format for audio file: " << path << std::endl;
         return;
     }
 
     if(!strcmp(subChunkID2, "data")){
-        std::cout << "No data subchunk for audio file: " << path << std::endl;
+        std::cout << "[DiMyne] No data subchunk for audio file: " << path << std::endl;
         return;
     }
 

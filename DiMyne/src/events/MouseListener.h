@@ -11,6 +11,8 @@ public:
     Vector2 getPos() { return Vector2(xPos, yPos); }
     Vector2 getLastPos() { return Vector2(xLast, yLast); }
     Vector2 getScroll() { return Vector2(scrollX, scrollY); }
+    float getMouseSensitivity() {return mouseSensitivity; }
+    void setMouseSensitivity(float val) {mouseSensitivity = val; }
     bool isLeftDown() { return buttons[0]; }
     bool isRightDown() { return buttons[1]; }
     bool isMiddleDown() { return buttons[2]; }
@@ -31,6 +33,7 @@ private:
     float xPos, yPos, xLast, yLast, scrollX, scrollY;
     bool buttons[3] = { false, false, false };
     bool dragging;
+    float mouseSensitivity = .1f;
 };
 
 

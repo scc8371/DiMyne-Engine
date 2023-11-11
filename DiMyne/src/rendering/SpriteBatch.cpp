@@ -89,11 +89,11 @@ void SpriteBatch::render(){
         }
         else{
             //create new buffer
-            std::cout << "Creating new buffer..." << std::endl;
+            std::cout << "[DiMyne] Creating new buffer..." << std::endl;
             GLuint temp;
             glGenBuffers(1, &temp);
 
-            std::cout << "Buffer created: VBO " << temp << std::endl;
+            std::cout << "[DiMyne] Buffer created: VBO " << temp << std::endl;
 
             VBOs.push_back(temp);
         }

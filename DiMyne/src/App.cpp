@@ -19,6 +19,11 @@ GLFWwindow* App::window = NULL;
 
 SpriteBatch* App::spriteBatch = NULL;
 
+void App::lockMouse(bool locked){
+    if(locked) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    else glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
 App::App(Game* game){
     //define default window size
     this->game = game;
@@ -44,11 +49,11 @@ App::App(Game* game){
 }
 
 void App::initGLFW(){
-    std::cout << "Initializing GLFW" << std::endl;
+    std::cout << "[DiMyne] Initializing GLFW" << std::endl;
 
     //initialize glfw
     if (!glfwInit()){
-        cout << "GLFW failed to initialize!" << endl;
+        cout << "[DiMyne] GLFW failed to initialize!" << endl;
         return;
     }
 
@@ -95,18 +100,18 @@ void App::initGLFW(){
     glfwSetWindowSizeCallback(window, WindowListener::getInstance()->windowSizeCallback);
     glfwSetWindowCloseCallback(window, WindowListener::getInstance()->windowCloseCallback);
 
-    std::cout << "Successfully initialized GLFW" << std::endl;
+    std::cout << "[DiMyne] Successfully initialized GLFW" << std::endl;
 }
 
 void App::initSb(){
-    std::cout << "Initializing SpriteBatch..." << std::endl;
+    std::cout << "[DiMyne] Initializing SpriteBatch..." << std::endl;
     spriteBatch = new SpriteBatch();
 
     //add img and font shaders
     spriteBatch->addDefualtShader(shader);
     spriteBatch->addFontShader(fontShader);
     
-    std::cout << "Successfully initialized SpriteBatch" << std::endl;
+    std::cout << "[DiMyne] Successfully initialized SpriteBatch" << std::endl;
 }
 
 void App::update(){
@@ -146,7 +151,7 @@ void App::update(){
         spriteBatch->render();
 
         if(KeyListener::isKeyPressed(GLFW_KEY_ESCAPE)){
-            std::cout << "Closing window..." << std::endl;
+            std::cout << "[DiMyne] Exiting application.." << std::endl;
             glfwSetWindowShouldClose(window, true);
         }
 

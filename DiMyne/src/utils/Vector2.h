@@ -24,6 +24,8 @@ struct Vector2{
 
     Vector2& operator=(const Vector2& other);
 
+    bool operator!=(const Vector2& other);
+
     //vector rotation
     void setAngle(GLfloat radians);
     Vector2* normalize();

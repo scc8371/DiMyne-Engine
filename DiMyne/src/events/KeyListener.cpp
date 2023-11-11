@@ -27,7 +27,7 @@ void KeyListener::keyCallback(GLFWwindow* window, int key, int scancode, int act
 bool KeyListener::isKeyPressed(int key){
     //check if key is in range
     if(key < 0 || key > 350){
-        std::cout << "Key out of range" << std::endl;
+        std::cout << "[DiMyne] Key out of range" << std::endl;
         return false;
     }
 

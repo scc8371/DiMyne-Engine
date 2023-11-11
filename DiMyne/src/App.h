@@ -68,6 +68,8 @@ public:
     /// @param height new height in pixels of the window
     static void changeWindowSize(int width, int height);
 
+    static void lockMouse(bool locked);
+
 private:
     static float windowWidth;
     static float windowHeight;

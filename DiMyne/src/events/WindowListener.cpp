@@ -64,7 +64,7 @@ void WindowListener::setFontShader(Shader* shader){
 void WindowListener::resizeBuffer(int width, int height){
 
     if(shader == nullptr){
-        std::cout << "Error: shader is not defined in WindowListener. " <<
+        std::cout << "[DiMyne] Error: shader is not defined in WindowListener. " <<
          "Use WindowListener::setShader(Shader* shader) to set its shader." << std::endl;
          return;
     }
@@ -78,7 +78,7 @@ void WindowListener::resizeBuffer(int width, int height){
         glUniformMatrix4fv(projID, 1, GL_FALSE, value_ptr(projection));
     }
     catch(std::exception& e){
-        std::cout << "Shader not defined" << std::endl;
+        std::cout << "[DiMyne] Shader not defined" << std::endl;
     }
 
     try{
@@ -87,7 +87,7 @@ void WindowListener::resizeBuffer(int width, int height){
         glUniformMatrix4fv(projID, 1, GL_FALSE, value_ptr(projection));
     }   
     catch(std::exception& e){
-        std::cout << "Font shader not defined" << std::endl;
+        std::cout << "[DiMyne] Font shader not defined in WindowListener." << std::endl;
     }
     
     WindowListener::getInstance()->width = width;
