@@ -14,7 +14,7 @@ public:
     }
     void draw(SpriteBatch *sb) override
     {
-        sb->colorWindow(WINDOWS_COLOR);
+        sb->colorWindow(BLACK);
     }
 };
 

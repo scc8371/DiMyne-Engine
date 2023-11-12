@@ -16,10 +16,13 @@ Vertex3D::Vertex3D(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v, Color 
     this->z = z;
     this->u = u;
     this->v = v;
-    this->a = color.a;
-    this->r = color.r;
-    this->g = color.g;
-    this->b = color.b;
+
+    
+
+    this->a = color.a / 255.0f;
+    this->r = color.r / 255.0f;
+    this->g = color.g / 255.0f;
+    this->b = color.b / 255.0f;
 }
 
 void Mesh::scale(glm::vec3 scale)
@@ -55,13 +58,23 @@ void Mesh::meshInit()
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void *)0);
 
+    // vert uv data
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
+                          sizeof(Vertex3D), (void *)(2 * sizeof(GLfloat)));
+
+    // vert tint data
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex3D),
+                          (void *)(5 * sizeof(GLfloat)));
+
     // //vertex normals
     // glEnableVertexAttribArray(1);
     // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 
-    //vertex texture coords
-    //glEnableVertexAttribArray(2);
-   //glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Vertex::texCoords));
+    // vertex texture coords
+    // glEnableVertexAttribArray(2);
+    // glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Vertex::texCoords));
 
     glBindVertexArray(0);
 };

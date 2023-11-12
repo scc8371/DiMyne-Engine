@@ -11,6 +11,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <vector>
+#include <algorithm>
 
 #include "../Texture.h"
 #include "../../utils/Color.h"

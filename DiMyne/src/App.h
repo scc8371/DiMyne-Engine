@@ -36,6 +36,7 @@
 #include "audio/SoundPlayer.h"
 
 #include "utils/ColorDef.h"
+#include "utils/MathDef.h"
 
 #include "camera/Camera.h"
 

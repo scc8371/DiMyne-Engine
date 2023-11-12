@@ -43,7 +43,9 @@ App::App(Game* game){
     Font::setSpriteBatch(spriteBatch);
 
     camera = new Camera();
-    testCube = new Cube(1.0f, "resources/content/tile.png");
+    testCube = new Cube(1.0f, "resources/content/tile.png", GRAY);
+    testCube->rotate(45, X_AXIS);
+    testCube->scale(glm::vec3(2.0, 0.5, 1.0));
     
     update();
 }
