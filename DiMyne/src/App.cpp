@@ -43,7 +43,7 @@ App::App(Game* game){
     Font::setSpriteBatch(spriteBatch);
 
     camera = new Camera();
-    testCube = new Cube(1, "resources/content/tile.png");
+    testCube = new Cube(1.0f, "resources/content/tile.png");
     
     update();
 }

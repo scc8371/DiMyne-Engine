@@ -12,7 +12,7 @@ Cube::Cube(float size, const char* texturePath){
         Vertex3D(-.5, .5, -.5, 0.0, 1.0, WHITE),
         Vertex3D(-.5, -.5, .5, 0.0, 0.0, WHITE),
         Vertex3D(.5, -.5, .5, 1.0, 0.0, WHITE),
-        Vertex3D(.5, -.5, .5, 1.0, 1.0, WHITE),
+        Vertex3D(.5, .5, .5, 1.0, 1.0, WHITE),
         Vertex3D(-.5, .5, .5, 0.0, 1.0, WHITE),
 
         Vertex3D(-.5, .5, -.5, 0.0, 0.0, WHITE),
@@ -27,7 +27,7 @@ Cube::Cube(float size, const char* texturePath){
         Vertex3D(-.5, -.5, -.5, 0.0, 0.0, WHITE),
         Vertex3D(.5, -.5, -.5, 1.0, 0.0, WHITE),
         Vertex3D(.5, -.5, .5, 1.0, 1.0, WHITE),
-        Vertex3D(-.5, -.5, -.5, 0.0, 1.0, WHITE),
+        Vertex3D(-.5, -.5, .5, 0.0, 1.0, WHITE),
         Vertex3D(.5, .5, -.5, 0.0, 0.0, WHITE),
         Vertex3D(-.5, .5, -.5, 1.0, 0.0, WHITE),
         Vertex3D(-.5, .5, .5, 1.0, 1.0, WHITE),
