@@ -51,6 +51,8 @@ public:
     /// @param matrix Matrix to link to the uniform variable
     void setMat4(const std::string& name, const glm::mat4& matrix);
 
+    void setVec3(const std::string& name, const glm::vec3& vector);
+
     /// @brief Binds the VAO to the shader
     void bind();
 

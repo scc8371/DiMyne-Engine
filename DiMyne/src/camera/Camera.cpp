@@ -32,6 +32,8 @@ void Camera::update(Shader *shader, float dt)
         // send view data to shader...
         GLuint viewID = glGetUniformLocation(shader->ID, "view");
         glUniformMatrix4fv(viewID, 1, GL_FALSE, glm::value_ptr(m_view));
+
+        shader->setVec3("viewPos", cameraPos);
     }
     catch (std::exception &e)
     {

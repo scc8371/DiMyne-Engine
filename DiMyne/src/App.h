@@ -22,6 +22,8 @@
 #include <iostream>
 
 #include "Game.h"
+#include "MyneGlobals.h"
+
 #include "gl/Shader.h"
 #include "rendering/SpriteBatch.h"
 #include "rendering/Sprite2D.h"
@@ -37,6 +39,8 @@
 
 #include "utils/ColorDef.h"
 #include "utils/MathDef.h"
+
+#include "lighting/Light.h"
 
 #include "camera/Camera.h"
 
@@ -85,6 +89,9 @@ private:
 
     Camera* camera;
     Cube* testCube;
+    Cube* lightingCube;
+
+    Light* light;
 
     static SpriteBatch* spriteBatch; 
 

@@ -43,9 +43,13 @@ App::App(Game* game){
     Font::setSpriteBatch(spriteBatch);
 
     camera = new Camera();
-    testCube = new Cube(1.0f, "resources/content/tile.png", GRAY);
+    testCube = new Cube(1.0f, "resources/content/tile.png", WHITE);
+    lightingCube = new Cube(0.1f, "resources/content/tile.png", WHITE);
+
+    light = new Light(glm::vec3(0, 0, 0), WHITE);
     testCube->rotate(45, X_AXIS);
-    testCube->scale(glm::vec3(2.0, 0.5, 1.0));
+
+    lightingCube->translate(glm::vec3(5.0f, 15.0f, 0));
     
     update();
 }
@@ -79,7 +83,8 @@ void App::initGLFW(){
 
     shader = new Shader("resources/shader/default.vert", "resources/shader/default.frag");
     fontShader = new Shader("resources/shader/default.vert", "resources/shader/fontShader.frag");
-    depthShader = new Shader("resources/shader/depth.vert", "resources/shader/default.frag");
+    depthShader = new Shader("resources/shader/depth.vert", "resources/shader/depth.frag");
+    MyneGlobals::depthShader = depthShader;
     
     //alpha blendings
     glEnable(GL_BLEND);
@@ -146,6 +151,11 @@ void App::update(){
         game->draw(spriteBatch);
         
         testCube->draw(depthShader);
+        testCube->rotate(-.1, XYZ_AXIS);
+        lightingCube->draw(depthShader);
+        lightingCube->rotate(1, XYZ_AXIS);
+
+        light->update();
 
         //update mouse position
         App::mousePosition = MouseListener::getInstance()->getPos();

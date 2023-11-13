@@ -28,6 +28,7 @@ struct Vertex3D{
     Vertex3D(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v, Color color);
     GLfloat x, y, z, u, v;
     GLfloat r, g, b, a;
+    GLfloat normalX, normalY, normalZ;
 };
 
 class Mesh{
@@ -39,17 +40,21 @@ public:
 
     std::vector<Vertex3D> vertices;
     std::vector<unsigned int> indices;
+    std::vector<glm::vec3> normals;
     
     unsigned int VAO;
 
     void scale(glm::vec3 scale);
     void translate(glm::vec3 translation);
     void rotate(float angleRotation, glm::vec3 axis);
+    
 
 private:
     unsigned int VBO, EBO;
     glm::mat4 model;
     void meshInit();
+    void calculateNormals();
+    glm::vec3 computeFaceNormal(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3);
 
     Texture texture;
 };
