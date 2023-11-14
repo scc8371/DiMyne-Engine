@@ -9,7 +9,7 @@ Mesh::Mesh(std::vector<Vertex3D> vertices, std::vector<unsigned int> indices, Te
     this->normals = std::vector<glm::vec3>(this->vertices.size());
 
     calculateNormals();
-    meshInit();  
+    meshInit();
 };
 
 void Mesh::calculateNormals()
@@ -108,14 +108,6 @@ void Mesh::meshInit()
     // vertex normals
     glEnableVertexAttribArray(3);
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void *)(9 * sizeof(GLfloat)));
-
-    GLenum error = glGetError();
-
-    if(error != GL_NO_ERROR){
-        std::cout << "[OpenGL] OpenGL error " << error << std::endl;
-    }
-
-    glBindVertexArray(0);
 };
 
 Mesh::Mesh() : texture(NULL){};

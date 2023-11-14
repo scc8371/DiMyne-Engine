@@ -7,6 +7,6 @@ Light::Light(glm::vec3 location, Color color){
 
 void Light::update(){
     MyneGlobals::depthShader->use();
-    MyneGlobals::depthShader->setVec3("lightColor", glm::vec3(this->color.r, this->color.g, this->color.b));
+    MyneGlobals::depthShader->setVec3("lightColor", glm::vec3(this->color.r / 255, this->color.g / 255, this->color.b / 255));
     MyneGlobals::depthShader->setVec3("lightPos", this->location);
 }
