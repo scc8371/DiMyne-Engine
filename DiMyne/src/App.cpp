@@ -46,7 +46,7 @@ App::App(Game* game){
     testCube = new Cube(1.0f, "resources/content/tile.png", WHITE);
     lightingCube = new Cube(0.1f, "resources/content/tile.png", WHITE);
 
-    light = new Light(glm::vec3(0, 50, 0), RED);
+    light = new Light(glm::vec3(50, 0, 0), WHITE);
     testCube->rotate(45, X_AXIS);
 
     lightingCube->translate(glm::vec3(5.0f, 15.0f, 0));
