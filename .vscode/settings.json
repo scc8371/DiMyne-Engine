@@ -68,7 +68,16 @@
         "ratio": "cpp",
         "stop_token": "cpp",
         "thread": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "mutex": "cpp",
+        "set": "cpp",
+        "array": "cpp",
+        "bitset": "cpp",
+        "cinttypes": "cpp",
+        "deque": "cpp",
+        "numeric": "cpp",
+        "stack": "cpp",
+        "unordered_set": "cpp"
     },
     "cmake.configureOnOpen": false
 }

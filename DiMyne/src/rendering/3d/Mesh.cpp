@@ -1,14 +1,19 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<Vertex3D> vertices, std::vector<unsigned int> indices, Texture texture) : texture(texture)
+Mesh::Mesh(std::vector<Vertex3D> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, bool doNormalCalculate)
 {
     this->vertices = vertices;
     this->indices = indices;
     this->model = glm::mat4(1.0f);
 
+    this->textures = textures;
     this->normals = std::vector<glm::vec3>(this->vertices.size());
 
-    calculateNormals();
+    if (doNormalCalculate)
+    {
+        calculateNormals();
+    }
+
     meshInit();
 };
 
@@ -62,6 +67,8 @@ Vertex3D::Vertex3D(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v, Color 
     this->normalZ = 0;
 }
 
+Vertex3D::Vertex3D(){};
+
 void Mesh::scale(glm::vec3 scale)
 {
     this->model = glm::scale(this->model, scale);
@@ -110,25 +117,55 @@ void Mesh::meshInit()
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void *)(9 * sizeof(GLfloat)));
 };
 
-Mesh::Mesh() : texture(NULL){};
+Mesh::Mesh(){};
 
 void Mesh::draw(Shader *shader)
 {
     shader->use();
     shader->setMat4("model", model);
 
-    glActiveTexture(GL_TEXTURE0);
-    texture.bind();
+    unsigned int diffuseNum = 1;
+    unsigned int specularNum = 1;
+    unsigned int normalNum = 1;
+    unsigned int heightNum = 1;
 
-    // bind vao
+    for (int i = 0; i < textures.size(); i++)
+    {
+        glActiveTexture(GL_TEXTURE0 + i);
+
+        std::string num;
+        std::string name;
+        Texture::TexType type = textures[i].texType;
+
+        switch (type)
+        {
+        case Texture::TexType::DIFFUSE:
+            name = "texture_diffuse";
+            num = std::to_string(diffuseNum++);
+            break;
+        case Texture::TexType::SPECULAR:
+            name = "texture_specular";
+            num = std::to_string(specularNum++);
+            break;
+        case Texture::TexType::NORMAL:
+            name = "texture_normal";
+            num = std::to_string(normalNum++);
+            break;
+        case Texture::TexType::HEIGHT:
+            name = "texture_height";
+            num = std::to_string(heightNum++);
+            break;
+        }
+
+        glUniform1i(glGetUniformLocation(shader->ID, (name + num).c_str()), i);
+        textures[i].bind();
+    }
+    // bind vao + draw mesh
     glBindVertexArray(VAO);
-
-    // draw mesh
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-
+    glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
     // unbind vao
     glBindVertexArray(0);
 
-    // unbind texture
-    texture.unbind();
+    // unbind textures
+    glActiveTexture(GL_TEXTURE0);
 }

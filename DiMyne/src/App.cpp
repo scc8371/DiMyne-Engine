@@ -2,42 +2,38 @@
 
 using namespace std;
 
-//initial window dimensions, can be changed.
+// initial window dimensions, can be changed.
 float App::windowWidth = 1200;
 float App::windowHeight = 800;
 
 Vector2 App::mousePosition = Vector2(0, 0);
 
-Shader* App::shader = nullptr;
-Shader* App::fontShader = nullptr;
-Shader* App::depthShader = nullptr;
+Shader *App::shader = nullptr;
+Shader *App::fontShader = nullptr;
+Shader *App::depthShader = nullptr;
 
 SoundPlayer App::audio = SoundPlayer();
 
-Game* App::game = NULL;
-GLFWwindow* App::window = NULL;
+Game *App::game = NULL;
+GLFWwindow *App::window = NULL;
 
-SpriteBatch* App::spriteBatch = NULL;
+SpriteBatch *App::spriteBatch = NULL;
 
-void App::lockMouse(bool locked){
-    if(locked) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    else glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-}
-
-App::App(Game* game){
-    //define default window size
+App::App(Game *game)
+{
+    // define default window size
     this->game = game;
     dt = 0;
     prevDt = 0;
-      
+
     initGLFW();
     audio.initialize();
     game->initialize();
 
-    #ifdef DEBUG
+#ifdef DEBUG
     initImGui();
-    #endif
-    
+#endif
+
     initSb();
     Sprite2D::setSpriteBatch(spriteBatch);
     Font::setSpriteBatch(spriteBatch);
@@ -46,32 +42,37 @@ App::App(Game* game){
     testCube = new Cube(1.0f, "resources/content/tile.png", WHITE);
     lightingCube = new Cube(0.1f, "resources/content/tile.png", WHITE);
 
+    model = new Model("resources/models/shoppingcart.obj");
+
     light = new Light(glm::vec3(50, 0, 0), WHITE);
     testCube->rotate(45, X_AXIS);
 
     lightingCube->translate(glm::vec3(5.0f, 15.0f, 0));
-    
+
     update();
 }
 
-void App::initGLFW(){
+void App::initGLFW()
+{
     std::cout << "[DiMyne] Initializing GLFW" << std::endl;
 
-    //initialize glfw
-    if (!glfwInit()){
+    // initialize glfw
+    if (!glfwInit())
+    {
         cout << "[DiMyne] GLFW failed to initialize!" << endl;
         return;
     }
 
-    //define gl version
+    // define gl version
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    //create window
+    // create window
     window = glfwCreateWindow(windowWidth, windowHeight, "DiMyne Test Window", NULL, NULL);
 
-    if(window == NULL){
+    if (window == NULL)
+    {
         cout << "Failed to create GLFW window" << endl;
         glfwTerminate();
         return;
@@ -85,13 +86,13 @@ void App::initGLFW(){
     fontShader = new Shader("resources/shader/default.vert", "resources/shader/fontShader.frag");
     depthShader = new Shader("resources/shader/depth.vert", "resources/shader/depth.frag");
     MyneGlobals::depthShader = depthShader;
-    
-    //alpha blendings
+
+    // alpha blendings
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    //set window listener shader, first buffer change
+    // set window listener shader, first buffer change
     WindowListener::setShader(shader);
     WindowListener::setFontShader(fontShader);
 
@@ -110,76 +111,91 @@ void App::initGLFW(){
     std::cout << "[DiMyne] Successfully initialized GLFW" << std::endl;
 }
 
-void App::initSb(){
+void App::initSb()
+{
     std::cout << "[DiMyne] Initializing SpriteBatch..." << std::endl;
     spriteBatch = new SpriteBatch();
 
-    //add img and font shaders
+    // add img and font shaders
     spriteBatch->addDefualtShader(shader);
     spriteBatch->addFontShader(fontShader);
-    
+
     std::cout << "[DiMyne] Successfully initialized SpriteBatch" << std::endl;
 }
 
-void App::update(){
-    //update glfw
+void App::update()
+{
+    // update glfw
     glfwPollEvents();
 
-    while(!glfwWindowShouldClose(window)){
+    while (!glfwWindowShouldClose(window))
+    {
 
-        //update dt
+        // update dt
         dt = glfwGetTime() - prevDt;
         prevDt = glfwGetTime();
-        
-        #ifdef DEBUG
+
+#ifdef DEBUG
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        //set imgui size
+        // set imgui size
         ImGui::SetNextWindowSize(ImVec2(300, 300), ImGuiCond_FirstUseEver);
-        #endif
-        
-        //update camera view.
+#endif
+
+        // update camera view.
         camera->update(depthShader, dt);
 
-        //update game   
+        // update game
         game->update(dt);
         audio.updateAudio();
 
-        shader->use();  
+        shader->use();
         game->draw(spriteBatch);
-        
+
         testCube->draw(depthShader);
         testCube->rotate(-.1, XYZ_AXIS);
         lightingCube->draw(depthShader);
         lightingCube->rotate(1, XYZ_AXIS);
+        model->draw();
+        model->rotate(.1, X_AXIS);
 
         light->update();
 
-        //update mouse position
+        // update mouse position
         App::mousePosition = MouseListener::getInstance()->getPos();
 
         spriteBatch->render();
 
-        if(KeyListener::isKeyPressed(GLFW_KEY_ESCAPE)){
+        if (KeyListener::isKeyPressed(GLFW_KEY_ESCAPE))
+        {
             std::cout << "[DiMyne] Exiting application.." << std::endl;
             glfwSetWindowShouldClose(window, true);
         }
 
         MouseListener::endFrame();
 
-        #ifdef DEBUG
+#ifdef DEBUG
         updateImGui();
-        #endif
+#endif
 
-        //swap buffers
+        // swap buffers
         glfwSwapBuffers(window);
-        glfwPollEvents();       
+        glfwPollEvents();
     }
 }
 
-App::~App(){
+void App::lockMouse(bool locked)
+{
+    if (locked)
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    else
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
+App::~App()
+{
     glfwDestroyWindow(window);
     glfwTerminate();
 
@@ -193,26 +209,29 @@ App::~App(){
     delete camera;
     camera = nullptr;
 
-    #ifdef DEBUG
+#ifdef DEBUG
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-    #endif
+#endif
 }
 
 #ifdef DEBUG
-void App::initImGui(){
+void App::initImGui()
+{
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGuiIO &io = ImGui::GetIO();
+    (void)io;
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 }
 
-void App::updateImGui(){
+void App::updateImGui()
+{
     ImGui::Begin("Debug");
-    ImGui::Text("FPS: %i", (int)(1/dt));
+    ImGui::Text("FPS: %i", (int)(1 / dt));
     ImGui::Text("Mouse Position: (%f, %f)", mousePosition.x, mousePosition.y);
     ImGui::End();
 
@@ -220,4 +239,3 @@ void App::updateImGui(){
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 #endif
-

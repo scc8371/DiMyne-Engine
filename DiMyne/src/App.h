@@ -46,7 +46,11 @@
 
 #include "rendering/3d/Cube.h"
 
+#include "rendering/3d/Model.h"
+
 #include <glad/glad.h>
+
+
 
 
 #ifdef DEBUG
@@ -91,6 +95,9 @@ private:
     Camera* camera;
     Cube* testCube;
     Cube* lightingCube;
+
+    Model* model;
+
 
     Light* light;
 

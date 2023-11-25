@@ -54,7 +54,9 @@ Cube::Cube(float size, const char* texturePath, Color tint){
         22, 23, 20
     };
 
-    mesh = Mesh(vertices, indices, texture);
+    std::vector<Texture> textures {texture};
+
+    mesh = Mesh(vertices, indices, textures, true);
 
     mesh.scale(glm::vec3(size));
 }

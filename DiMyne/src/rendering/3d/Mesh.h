@@ -26,14 +26,17 @@ struct Vertex3D{
     /// @param v v vertex attribute
     /// @param color color of the vertex
     Vertex3D(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v, Color color);
+    Vertex3D();
     GLfloat x, y, z, u, v;
     GLfloat r, g, b, a;
     GLfloat normalX, normalY, normalZ;
+
+    
 };
 
 class Mesh{
 public:
-    Mesh(std::vector<Vertex3D> vertices, std::vector<unsigned int> indices, Texture texture);
+    Mesh(std::vector<Vertex3D> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, bool doNormalCalculate = false);
     Mesh();
 
     void draw(Shader* shader);
@@ -56,7 +59,7 @@ private:
     void calculateNormals();
     glm::vec3 computeFaceNormal(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3);
 
-    Texture texture;
+    std::vector<Texture> textures;
 };
 
 #endif
